@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Book Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="text-white">Book Management System</h5>
+                        <p class="text-white-50" id="admin-name">Admin</p>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard-section" data-section="dashboard-section">
+                                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#books-section" data-section="books-section">
+                                <i class="bi bi-book me-2"></i> Books
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#students-section" data-section="students-section">
+                                <i class="bi bi-people me-2"></i> Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#borrow-section" data-section="borrow-section">
+                                <i class="bi bi-arrow-left-right me-2"></i> Borrow/Return
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#fines-section" data-section="fines-section">
+                                <i class="bi bi-cash-coin me-2"></i> Fines
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#reports-section" data-section="reports-section">
+                                <i class="bi bi-bar-chart me-2"></i> Reports
+                            </a>
+                        </li>
+                        <li class="nav-item mt-5">
+                            <a class="nav-link text-danger" href="#" id="logout-btn">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="section active">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Dashboard</h1>
+                    </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-2 mb-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Books</h5>
+                                    <p class="card-text display-6" id="total-books">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Students</h5>
+                                    <p class="card-text display-6" id="total-students">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <h5 class="card-title">Active Borrows</h5>
+                                    <p class="card-text display-6" id="active-borrows">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="card text-white bg-danger">
+                                <div class="card-body">
+                                    <h5 class="card-title">Overdue Books</h5>
+                                    <p class="card-text display-6" id="overdue-books">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <h5 class="card-title">Pending Fines</h5>
+                                    <p class="card-text display-6" id="pending-fines">$0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="card text-white bg-secondary">
+                                <div class="card-body">
+                                    <h5 class="card-title">Collected Fines</h5>
+                                    <p class="card-text display-6" id="collected-fines">$0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Top Books and Students -->
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Top Borrowed Books</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Borrow Count</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="top-books-table">
+                                                <!-- Top books will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Top Borrowers</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Student Name</th>
+                                                    <th>Borrow Count</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="top-students-table">
+                                                <!-- Top students will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Books Section -->
+                <section id="books-section" class="section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Books Management</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                            <i class="bi bi-plus-circle me-2"></i>Add New Book
+                        </button>
+                    </div>
+                    
+                    <!-- Search and Filter -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input type="text" id="book-search" class="form-control" placeholder="Search by title...">
+                        </div>
+                        <div class="col-md-4">
+                            <select id="genre-filter" class="form-select">
+                                <option value="">All Genres</option>
+                                <!-- Genres will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="book-search-btn" class="btn btn-secondary w-100">Search</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Books Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Genre</th>
+                                    <th>Year</th>
+                                    <th>Available</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="books-table">
+                                <!-- Books will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Students Section -->
+                <section id="students-section" class="section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Students Management</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                            <i class="bi bi-plus-circle me-2"></i>Add New Student
+                        </button>
+                    </div>
+                    
+                    <!-- Search and Filter -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input type="text" id="student-search" class="form-control" placeholder="Search by name...">
+                        </div>
+                        <div class="col-md-4">
+                            <select id="department-filter" class="form-select">
+                                <option value="">All Departments</option>
+                                <!-- Departments will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="student-search-btn" class="btn btn-secondary w-100">Search</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Students Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table">
+                                <!-- Students will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Borrow/Return Section -->
+                <section id="borrow-section" class="section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Borrow/Return Management</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#borrowBookModal">
+                            <i class="bi bi-arrow-right me-2"></i>Issue Book
+                        </button>
+                    </div>
+                    
+                    <!-- Filter -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select id="borrow-status-filter" class="form-select">
+                                <option value="">All Records</option>
+                                <option value="active">Active Borrows</option>
+                                <option value="returned">Returned Books</option>
+                                <option value="overdue">Overdue Books</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="borrow-filter-btn" class="btn btn-secondary w-100">Filter</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Borrow Records Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Book</th>
+                                    <th>Student</th>
+                                    <th>Borrow Date</th>
+                                    <th>Due Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="borrow-records-table">
+                                <!-- Borrow records will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Fines Section -->
+                <section id="fines-section" class="section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Fines Management</h1>
+                    </div>
+                    
+                    <!-- Filter -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select id="fine-status-filter" class="form-select">
+                                <option value="">All Fines</option>
+                                <option value="Pending">Pending Fines</option>
+                                <option value="Paid">Paid Fines</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button id="fine-filter-btn" class="btn btn-secondary w-100">Filter</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Fines Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Student Name</th>
+                                    <th>Book Title</th>
+                                    <th>Fine Amount</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Return Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fines-table">
+                                <!-- Fines will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports-section" class="section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Reports</h1>
+                    </div>
+                    
+                    <!-- Overdue Books -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">Overdue Books</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Book</th>
+                                            <th>Student</th>
+                                            <th>Email</th>
+                                            <th>Borrow Date</th>
+                                            <th>Due Date</th>
+                                            <th>Days Overdue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="overdue-table">
+                                        <!-- Overdue books will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Book Modal -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-book-form">
+                        <div class="mb-3">
+                            <label for="book-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="book-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="book-author" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="book-author" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="book-genre" class="form-label">Genre</label>
+                            <input type="text" class="form-control" id="book-genre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="book-year" class="form-label">Year Published</label>
+                            <input type="number" class="form-control" id="book-year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="book-quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="book-quantity" min="1" value="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-book-btn">Save Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Book Modal -->
+    <div class="modal fade" id="editBookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-book-form">
+                        <input type="hidden" id="edit-book-id">
+                        <div class="mb-3">
+                            <label for="edit-book-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="edit-book-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-book-author" class="form-label">Author</label>
+                            <input type="text" class="form-control" id="edit-book-author" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-book-genre" class="form-label">Genre</label>
+                            <input type="text" class="form-control" id="edit-book-genre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-book-year" class="form-label">Year Published</label>
+                            <input type="number" class="form-control" id="edit-book-year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-book-quantity" class="form-label">Total Quantity</label>
+                            <input type="number" class="form-control" id="edit-book-quantity" min="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="update-book-btn">Update Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-student-form">
+                        <div class="mb-3">
+                            <label for="student-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="student-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="student-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="student-email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="student-department" class="form-label">Department</label>
+                            <input type="text" class="form-control" id="student-department" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-student-btn">Save Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-student-form">
+                        <input type="hidden" id="edit-student-id">
+                        <div class="mb-3">
+                            <label for="edit-student-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="edit-student-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-student-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="edit-student-email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-student-department" class="form-label">Department</label>
+                            <input type="text" class="form-control" id="edit-student-department" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="update-student-btn">Update Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student History Modal -->
+    <div class="modal fade" id="studentHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Student Borrowing History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 id="history-student-name" class="mb-3"></h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Borrow Date</th>
+                                    <th>Due Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="student-history-table">
+                                <!-- Student history will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Borrow Book Modal -->
+    <div class="modal fade" id="borrowBookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Issue Book to Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="borrow-book-form">
+                        <div class="mb-3">
+                            <label for="borrow-book-id" class="form-label">Book</label>
+                            <select class="form-select" id="borrow-book-id" required>
+                                <option value="">Select a book</option>
+                                <!-- Available books will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="borrow-student-id" class="form-label">Student</label>
+                            <select class="form-select" id="borrow-student-id" required>
+                                <option value="">Select a student</option>
+                                <!-- Students will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="borrow-due-date" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="borrow-due-date" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="issue-book-btn">Issue Book</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
