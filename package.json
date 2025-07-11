@@ -1,0 +1,25 @@
+{
+  "name": "book-management-system",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node start.js",
+    "server": "node server.js",
+    "create-admin": "node create-admin.js",
+    "test-db": "node test-db.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["books", "library", "management", "express", "postgresql"],
+  "author": "",
+  "license": "ISC",
+  "description": "A full-stack Book Management System using Node.js, Express, and PostgreSQL",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "pg": "^8.15.0"
+  }
+}
